@@ -1,2 +1,2 @@
 FROM nginx:latest
-COPY --from=builder ./ /var/www/html/
+COPY COPY index.html /usr/share/nginx/html
