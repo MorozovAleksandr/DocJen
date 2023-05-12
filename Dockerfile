@@ -1,2 +1,2 @@
-FROM ubuntu
+FROM nginx:latest
 COPY . /var/www/html/
