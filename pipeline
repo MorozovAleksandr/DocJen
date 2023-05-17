@@ -2,13 +2,18 @@ pipeline{
 	agent any
 
   environment {
-    DOCKERHUB_CREDENTIALS=credentials('dockerhubaccount')
+    DOCKERHUB_CREDENTIALS=credentials('dockerhub')
   }
 
   stages {
+    stage('Clone') {
+      steps {
+        sh 'git clone https://github.com/MorozovAleksandr/DocJen/'
+      }
+    }
     stage('Build') {
       steps {
-        sh 'sudo docker build -t svaxel/docjen:latest .'
+        sh 'docker build -t svaxel/docjen:latest ./DocJen'
       }
     }
 
@@ -20,13 +25,13 @@ pipeline{
 
     stage('Push') {
       steps {
-        sh 'sudo docker push svaxel/docjen:latest'
+        sh 'docker push svaxel/docjen:latest'
       }
     }
     
     stage('Run') {
         steps {
-          sh 'docker run -p 81:80 svaxel/docjen'
+          sh 'docker run -d -p 81:80 svaxel/docjen'
         }
     }
   }
