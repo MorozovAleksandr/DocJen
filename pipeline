@@ -6,9 +6,20 @@ pipeline{
   }
 
   stages {
+    stage('Stop all containers') {
+        steps {
+          sh 'docker stop $(docker ps -a -q)'
+        }
+    }
+      
+    stage('Remove') {
+      steps {
+        sh 'rm -r DocJen'
+      }
+    }
     stage('Clone') {
       steps {
-        sh 'git clone https://github.com/MorozovAleksandr/DocJen/'
+        sh 'git clone https://github.com/MorozovAleksandr/DocJen.git'
       }
     }
     stage('Build') {
@@ -34,5 +45,6 @@ pipeline{
           sh 'docker run -d -p 81:80 svaxel/docjen'
         }
     }
+    
   }
 }
